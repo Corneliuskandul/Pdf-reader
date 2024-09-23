@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Reader Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #pdf-viewer {
+            border: 1px solid #000;
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload and View a PDF</h1>
+    <input type="file" id="file-input" accept="application/pdf" />
+    <div id="pdf-viewer">
+        <canvas id="pdf-canvas"></canvas>
+    </div>
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const pdfCanvas = document.getElementById('pdf-canvas');
+        const pdfContext = pdfCanvas.getContext('2d');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file.type === 'application/pdf') {
+                const fileReader = new FileReader();
+
+                fileReader.onload = function() {
+                    const typedArray = new Uint8Array(this.result);
+                    pdfjsLib.getDocument(typedArray).promise.then((pdf) => {
+                        pdf.getPage(1).then((page) => {
+                            const scale = 1.5;
+                            const viewport = page.getViewport({ scale });
+
+                            pdfCanvas.width = viewport.width;
+                            pdfCanvas.height = viewport.height;
+
+                            const renderContext = {
+                                canvasContext: pdfContext,
+                                viewport: viewport
+                            };
+
+                            page.render(renderContext);
+                        });
+                    });
+                };
+
+                fileReader.readAsArrayBuffer(file);
+            } else {
+                alert('Please upload a valid PDF file.');
+            }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Reader Application</title>
+    <style>
+        /* Styling the body with a gradient background */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Center container */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 900px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* Logo styling */
+        .logo {
+            width: 100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* File input styling */
+        input[type="file"] {
+            margin: 15px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input[type="file"]:hover {
+            background-color: #45a049;
+        }
+
+        #pdf-viewer {
+            border: 1px solid #000;
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+            margin-top: 20px;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+        }
+
+        /* About section styling */
+        .about-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 5px;
+        }
+
+        .about-section h2 {
+            margin-bottom: 10px;
+        }
+
+        /* Footer styling */
+        footer {
+            margin-top: 40px;
+            color: white;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <img class="logo" src="https://via.placeholder.com/100x100.png?text=Logo" alt="Application Logo">
+
+        <!-- Title -->
+        <h1>PDF Reader Application</h1>
+
+        <!-- File Input for Upload -->
+        <input type="file" id="file-input" accept="application/pdf" />
+
+        <!-- PDF Viewer -->
+        <div id="pdf-viewer">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
+
+        <!-- About Section -->
+        <div class="about-section">
+            <h2>About This Application</h2>
+            <p>This is a simple and interactive PDF Reader application. Upload any PDF document to view it directly in your browser  created by cornelius kandulu. 
+            The app uses the powerful <strong>PDF.js</strong> library to render the PDF pages in a sleek and responsive manner.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>PDF Reader Application &copy; 2024</p>
+    </footer>
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const pdfCanvas = document.getElementById('pdf-canvas');
+        const pdfContext = pdfCanvas.getContext('2d');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file.type === 'application/pdf') {
+                const fileReader = new FileReader();
+
+                fileReader.onload = function() {
+                    const typedArray = new Uint8Array(this.result);
+                    pdfjsLib.getDocument(typedArray).promise.then((pdf) => {
+                        pdf.getPage(1).then((page) => {
+                            const scale = 1.5;
+                            const viewport = page.getViewport({ scale });
+
+                            pdfCanvas.width = viewport.width;
+                            pdfCanvas.height = viewport.height;
+
+                            const renderContext = {
+                                canvasContext: pdfContext,
+                                viewport: viewport
+                            };
+
+                            page.render(renderContext);
+                        });
+                    });
+                };
+
+                fileReader.readAsArrayBuffer(file);
+            } else {
+                alert('Please upload a valid PDF file.');
+            }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Logo with Growing Edges</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+        }
+
+        svg {
+            width: 200px;
+            height: 200px;
+        }
+
+        .letter {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 100px;
+            fill: none;
+            stroke: #333;
+            stroke-width: 4;
+            stroke-linejoin: round;
+        }
+
+        .growing {
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            animation: grow 2s forwards ease-in-out;
+        }
+
+        @keyframes grow {
+            0% {
+                stroke-dashoffset: 500;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Logo -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+        <text class="letter growing" x="10" y="80">P</text>
+        <text class="letter growing" x="70" y="80">D</text>
+        <text class="letter growing" x="130" y="80">F</text>
+    </svg>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Reader with Search Tool</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 900px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="file"] {
+            margin: 15px 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input[type="file"]:hover {
+            background-color: #45a049;
+        }
+
+        #pdf-viewer {
+            border: 1px solid #000;
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+            margin-top: 20px;
+            border-radius: 5px;
+            background-color: #f4f4f4;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 80%;
+            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <img class="logo" src="https://via.placeholder.com/100x100.png?text=Logo" alt="Application Logo">
+
+        <!-- Title -->
+        <h1>PDF Reader with Search Tool</h1>
+
+        <!-- File Input for Upload -->
+        <input type="file" id="file-input" accept="application/pdf" />
+
+        <!-- PDF Viewer -->
+        <div id="pdf-viewer">
+            <canvas id="pdf-canvas"></canvas>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Enter word to search in PDF">
+            <button id="search-btn">Search</button>
+        </div>
+    </div>
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.5.141/pdf.min.js"></script>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const pdfCanvas = document.getElementById('pdf-canvas');
+        const pdfContext = pdfCanvas.getContext('2d');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-btn');
+
+        let pdfDocument = null;
+        let currentPage = 1;
+        let searchText = '';
+
+        // Render the PDF page
+        function renderPage(pageNumber) {
+            pdfDocument.getPage(pageNumber).then((page) => {
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale });
+
+                pdfCanvas.width = viewport.width;
+                pdfCanvas.height = viewport.height;
+
+                const renderContext = {
+                    canvasContext: pdfContext,
+                    viewport: viewport
+                };
+
+                page.render(renderContext);
+            });
+        }
+
+        // Load the PDF and render the first page
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file.type === 'application/pdf') {
+                const fileReader = new FileReader();
+
+                fileReader.onload = function() {
+                    const typedArray = new Uint8Array(this.result);
+                    pdfjsLib.getDocument(typedArray).promise.then((pdf) => {
+                        pdfDocument = pdf;
+                        currentPage = 1;
+                        renderPage(currentPage); // Automatically render the first page
+                    });
+                };
+
+                fileReader.readAsArrayBuffer(file);
+            } else {
+                alert('Please upload a valid PDF file.');
+            }
+        });
+
+        // Function to search for text in the PDF
+        function searchInPDF(text) {
+            if (!pdfDocument) {
+                alert('Please upload a PDF document first.');
+                return;
+            }
+
+            text = text.toLowerCase();
+            for (let pageNum = 1; pageNum <= pdfDocument.numPages; pageNum++) {
+                pdfDocument.getPage(pageNum).then((page) => {
+                    page.getTextContent().then((textContent) => {
+                        const textItems = textContent.items;
+                        const pageText = textItems.map(item => item.str.toLowerCase()).join(' ');
+
+                        if (pageText.includes(text)) {
+                            currentPage = pageNum;
+                            renderPage(currentPage); // Render the page where the text is found
+                            alert(`Found "${text}" on page ${pageNum}`);
+                        }
+                    });
+                });
+            }
+        }
+
+        // Event listener for search button
+        searchButton.addEventListener('click', () => {
+            searchText = searchInput.value;
+            if (searchText.trim()) {
+                searchInPDF(searchText);
+            } else {
+                alert('Please enter a word to search.');
+            }
+        });
+    </script>
+</body>
+</html>
